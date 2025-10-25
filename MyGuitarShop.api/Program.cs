@@ -1,36 +1,66 @@
 
+
+using MyGuitarShop.Data.Ado.Factories;
+using System.Diagnostics;
+
 namespace MyGuitarShop.api
 {
-    public class Program
+    public static class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
-
-            // Add services to the container.
-
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-
-            var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            try
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+                var builder = WebApplication.CreateBuilder(args);
 
+                AddServices(builder);
+
+                // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+                if (builder.Environment.IsDevelopment())
+                {
+                    builder.Services.AddEndpointsApiExplorer();
+                    builder.Services.AddSwaggerGen();
+                }
+
+                var app = builder.Build();
+
+                // Configure the HTTP request pipeline.
+                if (app.Environment.IsDevelopment())
+                {
+                    app.UseSwagger();
+                    app.UseSwaggerUI();
+                }
+
+                ConfigureAppLocation(app);
+                await app.RunAsync();
+            }
+            catch (Exception ex)
+            {
+
+                if (Debugger.IsAttached) Debugger.Break();
+
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        private static void ConfigureAppLocation(WebApplication app)
+        {
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
 
-
             app.MapControllers();
+        }
 
-            app.Run();
+        private static void AddServices(WebApplicationBuilder builder)
+        {
+            var connectionString = builder.Configuration.GetConnectionString("MyGuitarShop")
+                ?? throw new InvalidOperationException("MyGuitarShop connection string not found.");
+
+            builder.Services.AddSingleton(new SqlConnectionFactory(connectionString));
+
+            // Add services to the container.
+            builder.Services.AddControllers();
         }
     }
 }
