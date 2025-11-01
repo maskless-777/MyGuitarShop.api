@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using MyGuitarShop.Data.Ado.Entities;
 using MyGuitarShop.Data.Ado.Factories;
+using MyGuitarShop.Common.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,9 @@ namespace MyGuitarShop.Data.Ado.Repository
 {
     public class ProductRepo(
         ILogger<ProductRepo> logger,
-        SqlConnectionFactory sqlConnectionFactory)
+        SqlConnectionFactory sqlConnectionFactory) : IRepository<ProductEntity>
     {
-        public async Task<IEnumerable<ProductEntity>> GetAllProductsAsync()
+        public async Task<IEnumerable<ProductEntity>> GetAllAsync()
         {
             var products = new List<ProductEntity>();
             try
