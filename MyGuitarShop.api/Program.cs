@@ -1,6 +1,7 @@
 
 
 using MyGuitarShop.Data.Ado.Factories;
+using MyGuitarShop.Data.Ado.Repository;
 using System.Diagnostics;
 
 namespace MyGuitarShop.api
@@ -58,6 +59,8 @@ namespace MyGuitarShop.api
                 ?? throw new InvalidOperationException("MyGuitarShop connection string not found.");
 
             builder.Services.AddSingleton(new SqlConnectionFactory(connectionString));
+
+            builder.Services.AddScoped<ProductRepo>();
 
             // Add services to the container.
             builder.Services.AddControllers();
