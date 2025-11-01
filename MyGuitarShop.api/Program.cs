@@ -1,5 +1,7 @@
 
 
+using MyGuitarShop.Common.Interfaces;
+using MyGuitarShop.Data.Ado.Entities;
 using MyGuitarShop.Data.Ado.Factories;
 using MyGuitarShop.Data.Ado.Repository;
 using System.Diagnostics;
@@ -60,7 +62,7 @@ namespace MyGuitarShop.api
 
             builder.Services.AddSingleton(new SqlConnectionFactory(connectionString));
 
-            builder.Services.AddScoped<ProductRepo>();
+            builder.Services.AddScoped<IRepository<ProductEntity>, ProductRepo>();
 
             // Add services to the container.
             builder.Services.AddControllers();
