@@ -67,6 +67,8 @@ namespace MyGuitarShop.api
 
             builder.Services.AddScoped<IRepository<AddressDTO>, AddressRepo>();
 
+            builder.Services.AddScoped<IRepository<AdminDTO>, AdminRepo>();
+
             // Add services to the container.
             builder.Services.AddControllers();
         }

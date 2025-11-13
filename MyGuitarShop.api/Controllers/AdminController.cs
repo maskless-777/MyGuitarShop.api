@@ -9,9 +9,9 @@ namespace MyGuitarShop.api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AddressesController(
-        ILogger<AddressesController> logger,
-        IRepository<AddressDTO> repo)
+    public class AdminController(
+        ILogger<AdminController> logger,
+        IRepository<AdminDTO> repo)
         : ControllerBase
     {
         [HttpGet]
@@ -21,11 +21,11 @@ namespace MyGuitarShop.api.Controllers
             try
             {
                 var addresses = await repo.GetAllAsync();
-                return Ok(addresses.Select(p => p.Line1));
+                return Ok(addresses.Select(p => p.EmailAddress));
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Error retrieving addresses");
+                logger.LogError(ex, "Error retrieving admins");
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal Server Error");
             }
         }
@@ -35,67 +35,67 @@ namespace MyGuitarShop.api.Controllers
         {
             try
             {
-                var address = await repo.FindByIdAsync(id);
-                if (address == null)
+                var admin = await repo.FindByIdAsync(id);
+                if (admin == null)
                 {
                     return NotFound();
                 }
-                return Ok(address);
+                return Ok(admin);
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Error retrieving address with address ID {AddressID}", id);
+                logger.LogError(ex, "Error retrieving admin with admin ID {AddressID}", id);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal Server Error");
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAddressAsync(AddressDTO dto)
+        public async Task<IActionResult> CreateAdminAsync(AdminDTO dto)
         {
             try
             {
-                var numAddressesCreated = await repo.InsertAsync(dto);
+                var numAdminsCreated = await repo.InsertAsync(dto);
 
-                return Ok($"{numAddressesCreated} new addresses created");
+                return Ok($"{numAdminsCreated} new admins created");
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message, "Error adding new address");
+                logger.LogError(ex.Message, "Error adding new admin");
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAddressAsync(int id, AddressDTO updatedAddress)
+        public async Task<IActionResult> UpdateAdminAsync(int id, AdminDTO updatedAdmin)
         {
             try
             {
                 if (await repo.FindByIdAsync(id) == null)
-                    return NotFound($"Address with id {id} not found");
-                var numberAddressesUpdated = await repo.UpdateAsync(id, updatedAddress);
-                return Ok($"{numberAddressesUpdated} addresses updated");
+                    return NotFound($"Admin with id {id} not found");
+                var numberAdminsUpdated = await repo.UpdateAsync(id, updatedAdmin);
+                return Ok($"{numberAdminsUpdated} admins updated");
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message, "Error updating address with ID {AddressID}", id);
+                logger.LogError(ex.Message, "Error updating admin with ID {AdminID}", id);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal Server Error");
             }
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAddressAsync(int id)
+        public async Task<IActionResult> DeleteAdminAsync(int id)
         {
             try
             {
                 if (await repo.FindByIdAsync(id) == null)
-                    return NotFound($"Address with id {id} not found");
+                    return NotFound($"Admin with id {id} not found");
 
-                var numAddressesDeleted = await repo.DeleteAsync(id);
-                return Ok($"{numAddressesDeleted} addresses deleted");
+                var numAdminsDeleted = await repo.DeleteAsync(id);
+                return Ok($"{numAdminsDeleted} admins deleted");
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message, "Error deleting products with id {AddressID}", id);
+                logger.LogError(ex.Message, "Error deleting admins with id {AdminID}", id);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal Server Error");
 
             }
