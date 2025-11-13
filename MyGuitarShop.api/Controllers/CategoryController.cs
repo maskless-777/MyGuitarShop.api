@@ -9,9 +9,9 @@ namespace MyGuitarShop.api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AddressesController(
-        ILogger<AddressesController> logger,
-        IRepository<AddressDTO> repo)
+    public class CategoryController(
+        ILogger<CategoryController> logger,
+        IRepository<CategoryDTO> repo)
         : ControllerBase
     {
         [HttpGet]
@@ -21,11 +21,11 @@ namespace MyGuitarShop.api.Controllers
             try
             {
                 var addresses = await repo.GetAllAsync();
-                return Ok(addresses.Select(p => p.Line1));
+                return Ok(addresses.Select(p => p.CategoryName));
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Error retrieving addresses");
+                logger.LogError(ex, "Error retrieving categories");
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal Server Error");
             }
         }
@@ -35,49 +35,49 @@ namespace MyGuitarShop.api.Controllers
         {
             try
             {
-                var address = await repo.FindByIdAsync(id);
-                if (address == null)
+                var category = await repo.FindByIdAsync(id);
+                if (category == null)
                 {
                     return NotFound();
                 }
-                return Ok(address);
+                return Ok(category);
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Error retrieving address with address ID {AddressID}", id);
+                logger.LogError(ex, "Error retrieving category with category ID {AddressID}", id);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal Server Error");
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAddressAsync(AddressDTO dto)
+        public async Task<IActionResult> CreateCategoryAsync(CategoryDTO dto)
         {
             try
             {
-                var numAddressesCreated = await repo.InsertAsync(dto);
+                var numCategoriesCreated = await repo.InsertAsync(dto);
 
-                return Ok($"{numAddressesCreated} new addresses created");
+                return Ok($"{numCategoriesCreated} new categories created");
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message, "Error adding new address");
+                logger.LogError(ex.Message, "Error adding new categories");
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAddressAsync(int id, AddressDTO updatedAddress)
+        public async Task<IActionResult> UpdateCategoryAsync(int id, CategoryDTO updatedCategory)
         {
             try
             {
                 if (await repo.FindByIdAsync(id) == null)
-                    return NotFound($"Address with id {id} not found");
-                var numberAddressesUpdated = await repo.UpdateAsync(id, updatedAddress);
-                return Ok($"{numberAddressesUpdated} addresses updated");
+                    return NotFound($"Category with id {id} not found");
+                var numberCategoriesUpdated = await repo.UpdateAsync(id, updatedCategory);
+                return Ok($"{numberCategoriesUpdated} categories updated");
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message, "Error updating address with ID {AddressID}", id);
+                logger.LogError(ex.Message, "Error updating category with ID {CategoryID}", id);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal Server Error");
             }
         }
@@ -88,14 +88,14 @@ namespace MyGuitarShop.api.Controllers
             try
             {
                 if (await repo.FindByIdAsync(id) == null)
-                    return NotFound($"Address with id {id} not found");
+                    return NotFound($"Category with id {id} not found");
 
                 var numAddressesDeleted = await repo.DeleteAsync(id);
-                return Ok($"{numAddressesDeleted} addresses deleted");
+                return Ok($"{numAddressesDeleted} categories deleted");
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message, "Error deleting addresses with id {AddressID}", id);
+                logger.LogError(ex.Message, "Error deleting categories with id {CategoryID}", id);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal Server Error");
 
             }
