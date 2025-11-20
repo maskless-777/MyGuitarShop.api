@@ -1,5 +1,6 @@
 
 
+using MongoDB.Driver;
 using MyGuitarShop.Common.DTOs;
 using MyGuitarShop.Common.Interfaces;
 using MyGuitarShop.Data.Ado.Entities;
@@ -77,7 +78,18 @@ namespace MyGuitarShop.api
 
             builder.Services.AddScoped<IRepository<OrderDTO>, OrderRepo>();
 
-            // Add services to the container.
+            // MONGO
+            var mongoConnectionString = builder.Configuration.GetConnectionString("MongoDb")
+                ?? throw new InvalidOperationException("MongoDb commection string not found");
+
+            builder.Services.AddSingleton<IMongoClient, MongoClient>(_ => new MongoClient(mongoConnectionString));
+
+            builder.Services.AddSingleton<IMongoDatabase>(sp =>
+            {
+                var mongoClient = sp.GetService<IMongoClient>();
+                return mongoClient.GetDatabase("MyGuitarShopCluster");
+            });
+
             builder.Services.AddControllers();
         }
     }

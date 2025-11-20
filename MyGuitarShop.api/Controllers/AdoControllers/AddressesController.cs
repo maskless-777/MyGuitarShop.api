@@ -5,13 +5,13 @@ using MyGuitarShop.Common.Interfaces;
 using MyGuitarShop.Data.Ado.Entities;
 using MyGuitarShop.Data.Ado.Repository;
 
-namespace MyGuitarShop.api.Controllers
+namespace MyGuitarShop.api.Controllers.AdoControllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrdersController(
-        ILogger<OrdersController> logger,
-        IRepository<OrderDTO> repo)
+    public class AddressesController(
+        ILogger<AddressesController> logger,
+        IRepository<AddressDTO> repo)
         : ControllerBase
     {
         [HttpGet]
@@ -20,12 +20,12 @@ namespace MyGuitarShop.api.Controllers
         {
             try
             {
-                var orders = await repo.GetAllAsync();
-                return Ok(orders.Select(p => p.OrderID));
+                var addresses = await repo.GetAllAsync();
+                return Ok(addresses.Select(p => p.Line1));
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Error retrieving orders");
+                logger.LogError(ex, "Error retrieving addresses");
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal Server Error");
             }
         }
@@ -35,67 +35,67 @@ namespace MyGuitarShop.api.Controllers
         {
             try
             {
-                var order = await repo.FindByIdAsync(id);
-                if (order == null)
+                var address = await repo.FindByIdAsync(id);
+                if (address == null)
                 {
                     return NotFound();
                 }
-                return Ok(order);
+                return Ok(address);
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Error retrieving order with order ID {OrderID}", id);
+                logger.LogError(ex, "Error retrieving address with address ID {AddressID}", id);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal Server Error");
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateOrderAsync(OrderDTO dto)
+        public async Task<IActionResult> CreateAddressAsync(AddressDTO dto)
         {
             try
             {
-                var numOrdersCreated = await repo.InsertAsync(dto);
+                var numAddressesCreated = await repo.InsertAsync(dto);
 
-                return Ok($"{numOrdersCreated} new orders created");
+                return Ok($"{numAddressesCreated} new addresses created");
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message, "Error adding new order");
+                logger.LogError(ex.Message, "Error adding new address");
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateOrderAsync(int id, OrderDTO updatedOrder)
+        public async Task<IActionResult> UpdateAddressAsync(int id, AddressDTO updatedAddress)
         {
             try
             {
                 if (await repo.FindByIdAsync(id) == null)
-                    return NotFound($"Order with id {id} not found");
-                var numberOrdersUpdated = await repo.UpdateAsync(id, updatedOrder);
-                return Ok($"{numberOrdersUpdated} orders updated");
+                    return NotFound($"Address with id {id} not found");
+                var numberAddressesUpdated = await repo.UpdateAsync(id, updatedAddress);
+                return Ok($"{numberAddressesUpdated} addresses updated");
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message, "Error updating order with ID {OrderID}", id);
+                logger.LogError(ex.Message, "Error updating address with ID {AddressID}", id);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal Server Error");
             }
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOrderAsync(int id)
+        public async Task<IActionResult> DeleteAddressAsync(int id)
         {
             try
             {
                 if (await repo.FindByIdAsync(id) == null)
-                    return NotFound($"Order with id {id} not found");
+                    return NotFound($"Address with id {id} not found");
 
-                var numOrdersDeleted = await repo.DeleteAsync(id);
-                return Ok($"{numOrdersDeleted} orders deleted");
+                var numAddressesDeleted = await repo.DeleteAsync(id);
+                return Ok($"{numAddressesDeleted} addresses deleted");
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message, "Error deleting orders with id {OrderID}", id);
+                logger.LogError(ex.Message, "Error deleting addresses with id {AddressID}", id);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal Server Error");
 
             }
