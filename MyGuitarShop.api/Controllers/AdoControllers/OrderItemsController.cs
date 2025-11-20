@@ -5,13 +5,13 @@ using MyGuitarShop.Common.Interfaces;
 using MyGuitarShop.Data.Ado.Entities;
 using MyGuitarShop.Data.Ado.Repository;
 
-namespace MyGuitarShop.api.Controllers
+namespace MyGuitarShop.api.Controllers.AdoControllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AddressesController(
-        ILogger<AddressesController> logger,
-        IRepository<AddressDTO> repo)
+    public class OrderItemsController(
+        ILogger<OrderItemsController> logger,
+        IRepository<OrderItemDTO> repo)
         : ControllerBase
     {
         [HttpGet]
@@ -20,12 +20,12 @@ namespace MyGuitarShop.api.Controllers
         {
             try
             {
-                var addresses = await repo.GetAllAsync();
-                return Ok(addresses.Select(p => p.Line1));
+                var orderitems = await repo.GetAllAsync();
+                return Ok(orderitems.Select(p => p.ItemID));
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Error retrieving addresses");
+                logger.LogError(ex, "Error retrieving orderitems");
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal Server Error");
             }
         }
@@ -35,49 +35,49 @@ namespace MyGuitarShop.api.Controllers
         {
             try
             {
-                var address = await repo.FindByIdAsync(id);
-                if (address == null)
+                var orderitem = await repo.FindByIdAsync(id);
+                if (orderitem == null)
                 {
                     return NotFound();
                 }
-                return Ok(address);
+                return Ok(orderitem);
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Error retrieving address with address ID {AddressID}", id);
+                logger.LogError(ex, "Error retrieving orderitem with item ID {ItemID}", id);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal Server Error");
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAddressAsync(AddressDTO dto)
+        public async Task<IActionResult> CreateAddressAsync(OrderItemDTO dto)
         {
             try
             {
-                var numAddressesCreated = await repo.InsertAsync(dto);
+                var numItemsCreated = await repo.InsertAsync(dto);
 
-                return Ok($"{numAddressesCreated} new addresses created");
+                return Ok($"{numItemsCreated} new orderitems created");
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message, "Error adding new address");
+                logger.LogError(ex.Message, "Error adding new orderitem");
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAddressAsync(int id, AddressDTO updatedAddress)
+        public async Task<IActionResult> UpdateOrderItemAsync(int id, OrderItemDTO updatedItem)
         {
             try
             {
                 if (await repo.FindByIdAsync(id) == null)
-                    return NotFound($"Address with id {id} not found");
-                var numberAddressesUpdated = await repo.UpdateAsync(id, updatedAddress);
-                return Ok($"{numberAddressesUpdated} addresses updated");
+                    return NotFound($"OrderItem with id {id} not found");
+                var numberItemsUpdated = await repo.UpdateAsync(id, updatedItem);
+                return Ok($"{numberItemsUpdated} orderitems updated");
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message, "Error updating address with ID {AddressID}", id);
+                logger.LogError(ex.Message, "Error updating orderitem with ID {ItemID}", id);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal Server Error");
             }
         }
@@ -88,14 +88,14 @@ namespace MyGuitarShop.api.Controllers
             try
             {
                 if (await repo.FindByIdAsync(id) == null)
-                    return NotFound($"Address with id {id} not found");
+                    return NotFound($"OrderItem with id {id} not found");
 
-                var numAddressesDeleted = await repo.DeleteAsync(id);
-                return Ok($"{numAddressesDeleted} addresses deleted");
+                var numItemsDeleted = await repo.DeleteAsync(id);
+                return Ok($"{numItemsDeleted} orderitems deleted");
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message, "Error deleting addresses with id {AddressID}", id);
+                logger.LogError(ex.Message, "Error deleting orderitems with id {ItemID}", id);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal Server Error");
 
             }

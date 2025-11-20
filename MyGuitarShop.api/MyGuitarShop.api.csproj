@@ -17,4 +17,8 @@
     <ProjectReference Include="..\MyGuitarShop.Data.MongoDb\MyGuitarShop.Data.MongoDb.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\EFCoreControllers\" />
+  </ItemGroup>
+
 </Project>
