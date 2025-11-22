@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace MyGuitarShop.Common.Interfaces
 {
-    public interface IRepository<TDTO>
+    public interface IRepository<TEntity, in TKey>
         {
-        Task<IEnumerable<TDTO>> GetAllAsync();
-        Task<TDTO?> FindByIdAsync(int id);
-        Task<int> InsertAsync(TDTO dto);
-        Task<int> UpdateAsync(int id, TDTO dto);
-        Task<int> DeleteAsync(int id);
+        Task<IEnumerable<TEntity>> GetAllAsync();
+        Task<TEntity?> FindByIdAsync(TKey id);
+        Task<bool> InsertAsync(TEntity entity);
+        Task<bool> UpdateAsync(TKey id, TEntity entity);
+        Task<bool> DeleteAsync(TKey id);
     }
 }
