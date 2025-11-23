@@ -1,10 +1,12 @@
 
 
+using Microsoft.EntityFrameworkCore;
 using MyGuitarShop.Common.DTOs;
 using MyGuitarShop.Common.Interfaces;
 using MyGuitarShop.Data.Ado.Entities;
 using MyGuitarShop.Data.Ado.Factories;
 using MyGuitarShop.Data.Ado.Repository;
+using MyGuitarShop.Data.EFCore.Context;
 using System.Diagnostics;
 
 namespace MyGuitarShop.api
@@ -62,6 +64,9 @@ namespace MyGuitarShop.api
                 ?? throw new InvalidOperationException("MyGuitarShop connection string not found.");
 
             builder.Services.AddSingleton(new SqlConnectionFactory(connectionString));
+
+            builder.Services.AddDbContextFactory<MyGuitarShopContext>(options =>
+                options.UseSqlServer(connectionString));
 
             builder.Services.AddScoped<IRepository<ProductDTO>, ProductRepo>();
 
