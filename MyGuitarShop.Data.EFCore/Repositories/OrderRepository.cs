@@ -10,5 +10,5 @@ using MyGuitarShop.Data.EFCore.Abstract;
 
 namespace MyGuitarShop.Data.EFCore.Repositories
 {
-    public class OrderRepository(MyGuitarShopContext dbContext) : RepositoryBase<Product>(dbContext) { }
+    public class OrderRepository(MyGuitarShopContext dbContext) : RepositoryBase<Order>(dbContext) { }
 }

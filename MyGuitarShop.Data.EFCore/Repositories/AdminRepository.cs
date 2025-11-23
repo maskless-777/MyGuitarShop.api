@@ -10,5 +10,5 @@ using MyGuitarShop.Data.EFCore.Abstract;
 
 namespace MyGuitarShop.Data.EFCore.Repositories
 {
-    public class AdminRepository(MyGuitarShopContext dbContext) : RepositoryBase<Product>(dbContext) { }
+    public class AdminRepository(MyGuitarShopContext dbContext) : RepositoryBase<Administrator>(dbContext) { }
 }
