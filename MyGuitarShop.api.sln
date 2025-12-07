@@ -7,11 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyGuitarShop.api", "MyGuita
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyGuitarShop.Common", "MyGuitarShop.Common\MyGuitarShop.Common.csproj", "{4BA9A4F4-22BA-4264-BE12-D07C8C59075E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyGuitarShop.Data.Ado", "MyGuitarShop.Data.Ado\MyGuitarShop.Data.Ado.csproj", "{E619925A-90A2-43C8-A827-E7DC6AF0F745}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyGuitarShop.Data.EFCore", "MyGuitarShop.Data.EFCore\MyGuitarShop.Data.EFCore.csproj", "{2105BC94-4655-4E81-9D7C-3687AB4D2F5B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyGuitarShop.Data.MongoDb", "MyGuitarShop.Data.MongoDb\MyGuitarShop.Data.MongoDb.csproj", "{970C801E-EC0E-4380-BDE8-8AE3EB9547E5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{28EE3DBE-6AD3-4CB4-B288-2E5C7B3A7F63}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,14 +28,6 @@ Global
 		{4BA9A4F4-22BA-4264-BE12-D07C8C59075E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4BA9A4F4-22BA-4264-BE12-D07C8C59075E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4BA9A4F4-22BA-4264-BE12-D07C8C59075E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E619925A-90A2-43C8-A827-E7DC6AF0F745}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E619925A-90A2-43C8-A827-E7DC6AF0F745}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E619925A-90A2-43C8-A827-E7DC6AF0F745}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E619925A-90A2-43C8-A827-E7DC6AF0F745}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2105BC94-4655-4E81-9D7C-3687AB4D2F5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2105BC94-4655-4E81-9D7C-3687AB4D2F5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2105BC94-4655-4E81-9D7C-3687AB4D2F5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2105BC94-4655-4E81-9D7C-3687AB4D2F5B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{970C801E-EC0E-4380-BDE8-8AE3EB9547E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{970C801E-EC0E-4380-BDE8-8AE3EB9547E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{970C801E-EC0E-4380-BDE8-8AE3EB9547E5}.Release|Any CPU.ActiveCfg = Release|Any CPU

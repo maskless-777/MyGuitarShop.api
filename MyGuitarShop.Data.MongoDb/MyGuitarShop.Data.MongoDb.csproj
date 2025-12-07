@@ -14,4 +14,9 @@
     <ProjectReference Include="..\MyGuitarShop.Common\MyGuitarShop.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>
